@@ -1,0 +1,27 @@
+Write a Program to Prompt for a Score between 0.0 and 1.0. If the Score is out of range, print an error. If the score is between 0.0 and 1.0, print a grade using the following table
+
+# Prompt the user for input
+try:
+    score = float(input("Enter a score between 0.0 and 1.0: "))
+except ValueError:
+    print("Error: Please enter a numerical value between 0.0 and 1.0")
+    exit(1)
+
+# Check if the score is within the valid range
+if score < 0.0 or score > 1.0:
+    print("Error: Score is out of range (0.0 to 1.0)")
+else:
+    # Assign a grade based on the table
+    if score >= 0.9:
+        grade = "A"
+    elif score >= 0.8:
+        grade = "B"
+    elif score >= 0.7:
+        grade = "C"
+    elif score >= 0.6:
+        grade = "D"
+    else:
+        grade = "F"
+
+    # Print the grade
+    print("Grade:", grade)

@@ -1,0 +1,214 @@
+class Account():
+    count = 100000  # Initial account number counter
+
+    def __init__(self, newType):
+        Account.count += 1000  # Increment account number for each new account
+        self.AccNum = Account.count  # Generate a unique account number
+        self.AccType = newType  # Initialize the account type
+        self.AccBal = 0.00  # Initialize the account balance
+
+    def getNum(self):
+        return self.AccNum  # Get the account number
+
+    def getType(self):
+        return self.AccType  # Get the account type
+
+    def setType(self):
+        # TODO: Implement the logic to set the account type
+        pass
+
+    def getBal(self):
+        return self.AccBal  # Get the account balance
+
+
+class Customer():
+    emailSuffix = "@MyBank.co.nz"  # Email suffix for customer email addresses
+
+    def __init__(self, newAcct, newFName, newLName):
+        self.CustAcct = newAcct  # Initialize customer's bank account
+        self.CustFName = newFName  # Initialize first name
+        self.CustLName = newLName  # Initialize last name
+        self.CustEmail = newFName + "." + newLName + Customer.emailSuffix  # Generate customer email
+
+    def setFName(self):
+        newF = input("Enter New FIRST Name: ")
+        self.CustFName = newF  # Set a new first name
+
+    def getCurrency(self):
+        balCur = "${:,.2f}".format(self.CustAcct.AccBal)
+        return balCur  # Get the account balance in currency format
+
+    def setLName(self):
+        newL = input("Enter New LAST Name: ")
+        self.CustLName = newL  # Set a new last name
+
+    def setEmail(self):
+        newEmail = input("Enter New EMAIL: ")
+        self.CustEmail = newEmail  # Set a new email address
+
+    def Deposit(self, depAmt):
+        self.CustAcct.AccBal += depAmt  # Deposit funds into the account
+
+    def Withdraw(self, wdrAmt):
+        self.CustAcct.AccBal -= wdrAmt  # Withdraw funds from the account
+
+    def __str__(self):
+        # Generate a string representation of the customer's details
+        return (f"Account Number: {self.CustAcct.AccNum}\n"
+                f"Account Name: {self.CustFName} {self.CustLName}\n"
+                f"Account Email: {self.CustEmail}\n"
+                f"Account Type: {self.CustAcct.AccType}\n"
+                f"Account Balance: {self.getCurrency()}\n")
+
+# Function to load and display a menu
+def menuLoad(menu):
+    count = 1
+
+    for z in menu:
+        print(f"{count}. {z}")
+        count += 1
+
+    print(f"0. EXIT")
+
+    choice = input("Enter Number: ")
+
+    if choice.isnumeric():
+        choice = int(choice)
+
+        if choice in range(0, count):
+            answer = choice
+        else:
+            print("Error: Number out of RANGE.")
+            answer = 99
+    else:
+        print("Error: Input NOT a number.")
+        answer = 99
+
+    return answer
+
+# Function to find a customer
+def custFind():
+    found = 0
+    print("-------------FIND Customer-------")
+    findMenu = ["by NAME", "by NUMBER"]
+    selection = menuLoad(findMenu)
+
+    if selection == 1:
+        findFName = input("Enter FIRST Name: ").lower()
+        findLName = input("Enter LAST Name: ").lower()
+
+        for x in custList:
+            if x.CustFName.lower() == findFName and x.CustLName.lower() == findLName:
+                found = x
+                print("Customer FOUND")
+                break
+    elif selection == 2:
+        findNum = input("Enter Account Number: ")
+        found = 0
+        if findNum.isnumeric():
+            findNum = int(findNum)
+
+        for y in custList:
+            if y.CustAcct.AccNum == findNum:
+                found = y
+                print("Customer FOUND")
+                break
+        else:
+            print("Error")
+    return found
+
+# Function to edit customer details
+def custEdit():
+    fileEdit = custFind()
+
+    if fileEdit != 0:
+        editMenu = ["FIRST Name", "LAST Name", "EMAIL", "Account TYPE"]
+        editPick = menuLoad(editMenu)
+
+        if editPick == 1:
+            fileEdit.setFName()
+        elif editPick == 2:
+            fileEdit.setLName()
+        elif editPick == 3:
+            fileEdit.setEmail()
+        elif editPick == 4:
+            fileEdit.CustAcct.setType()
+        else:
+            print("Error")
+
+# Sample customer data
+from Accounts import Account
+from Customers import Customer
+
+custList = []
+
+dat01 = Customer(Account("Savings"), "Kylie", "Mackay")
+dat02 = Customer(Account("Cheque"), "Donna", "Underwood")
+dat03 = Customer(Account("Business"), "Anthony", "Hudson")
+
+custList.extend([dat01, dat02, dat03])
+
+# Main menus for transactions and customer management
+menu1 = ["DEPOSIT", "WITHDRAW", "Customer Menu"]
+menu2 = ["FIND", "ADD", "EDIT", "Show All"]
+
+# Main program loop
+while True:
+    choice1 = menuLoad(menu1)
+
+    if choice1 == 0:
+        print("Goodbye")
+        break
+
+    elif choice1 == 1:
+        depFind = custFind()
+
+        if depFind != 0:
+            print(f"Current Balance.{depFind.getCurrency()}")
+            depAmt = input("ENTER DEPOSIT Amount: ")
+            if depAmt.isnumeric():
+                depAmt = float(depAmt)
+                depFind.Deposit(depAmt)
+                print(f"New Balance: {depFind.getCurrency()}")
+            else:
+                print("Not a Number")
+
+    elif choice1 == 2:
+        wdrFind = custFind()
+
+        if wdrFind != 0:
+            curBal = wdrFind.CustAcct.getBal()
+            print(f"Current Balance.{curBal}")
+            wdrAmt = input("ENTER WITHDRAWAL Amount: ")
+            if wdrAmt.isnumeric():
+                wdrAmt = float(wdrAmt)
+                if wdrAmt > wdrFind.CustAcct.getBal():
+                    print("Insufficient Funds")
+                else:
+                    wdrFind.Withdraw(wdrAmt)
+                    print(f"New Balance : {wdrFind.CustAcct.getBal()}")
+            else:
+                print("Not a Number")
+
+    elif choice1 == 3:
+        choice2 = menuLoad(menu2)
+
+        if choice2 == 1:
+            found = custFind()
+
+            if found != 0:
+                print(found)
+            else:
+                print("Customer NOT FOUND")
+
+        elif choice2 == 2:
+            print("Customer ADD")
+
+        elif choice2 == 3:
+            custEdit()
+
+        elif choice2 == 4:
+            for x in custList:
+                print(x)
+        else:
+            continue

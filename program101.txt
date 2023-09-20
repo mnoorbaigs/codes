@@ -1,0 +1,154 @@
+# This function displays a menu and takes user input to select an option.
+# It ensures that the input is a valid numeric option within the given range.
+def menuLoad(menu):
+    count = 1
+    for z in menu:
+        print(f"{count}. {z}")
+        count += 1
+    print(f"0. EXIT")
+    selection = input("\nEnter Number: ")
+
+    if selection.isnumeric():
+        selection = int(selection)
+        if selection not in range(0, count):
+            print("\nError: Number outside range\n")
+            selection = 99
+    else:
+        print("\nError: Input must be a Number\n")
+        selection = 99
+
+    return selection
+
+# Functions related to rentals
+def rNew(cNewRent):
+    print("Create Code")
+
+def rUnpaid():
+    print("Create Code")
+
+def rPay():
+    print("Create Code")
+
+# Functions related to vehicles
+def vFind():
+    vTemp = []
+    found = 0
+
+    for v in vList:
+        if v.vStatus == True:
+            vTemp.append(f"{v.vYear}{v.vMake}{v.vModel}: Cost per Day = {v.vCost}")
+    test = menuLoad(vTemp)
+
+    if test != 0:
+        found = vList[test - 1]
+
+    return found
+
+# Function to add a new vehicle (still a placeholder)
+def vAdd():
+    print("Create Code")
+
+# Functions related to clients
+def cFind():
+    tempFind = []
+    found = 0
+    for t in cList:
+        tempFind.append(f"{t.cFName}{t.cLName}")
+    cSeek = menuLoad(tempFind)
+
+    if cSeek != 0:
+        found = cList[cSeek - 1]
+        print(found)
+
+    return found
+
+# Function to edit a client (still a placeholder)
+def cEdit(clientToEdit):
+    print("Create Code")
+
+# Function to add a new client (still a placeholder)
+def cAdd():
+    print("Create Code")
+
+# Importing the Client and Vehicle classes (assuming they are defined elsewhere)
+from Clients import Client
+from Vehicles import Vehicle
+
+# Lists to store vehicle and client data
+vList = []
+cList = []
+unPaid = []
+
+# Sample vehicle data
+vDat01 = Vehicle("FORD", "Everest", 2020, "IXL595", 80, 23243)
+# ...
+
+# Adding vehicle data to the list
+vList.extend([vDat01, vDat02, vDat03, vDat04, vDat05, vDat06, vDat07, vDat08, vDat09, vDat10])
+
+# Sample client data
+cDat01 = Client("Harry", "Abraham", "(020) 403 6704", "harry.abraham@somemail.co.nz")
+# ...
+
+# Adding client data to the list
+cList.extend([cDat01, cDat02, cDat03, cDat04, cDat05])
+
+# Lists to store menu options
+mainMenu = ["Rental Menu", "Vehicle Menu", "Client Menu"]
+rMenu = ["New Rental", "Unpaid", "Pay Account"]
+vMenu = ["Find Vehicle", "All Rented", "Show All Vehicles", "Create New Vehicle"]
+cMenu = ["Find Client", "All Clients", "Edit Client", "Create New Client"]
+
+# Main program loop
+while True:
+    print("\n----->>>>> Welcome to the Car Rental Main Menu <<<<<-----")
+    choice1 = menuLoad(mainMenu)
+
+    if choice1 == 0:
+        print("Goodbye")
+        break
+    # Rental Menu
+    elif choice1 == 1:
+        rOut = menuLoad(rMenu)
+    # Vehicle Menu
+    elif choice1 == 2:
+        vOut = menuLoad(vMenu)
+        if vOut == 1:
+            vFound = vFind()
+        elif vOut == 2:
+            test = 0
+            for v in vList:
+                if v.vStatus == False:
+                    print(f"{v.vYear} {v.vMake} {v.vModel}")
+                    test += 1
+            if test == 0:
+                print("nothing rented")
+        elif vOut == 3:
+            for v in vList:
+                print(f"{v.vYear} {v.vMake} {v.vModel}")
+        elif vOut == 4:
+            vAdd()
+        else:
+            continue
+    # Client Menu
+    elif choice1 == 3:
+        cOut = menuLoad(cMenu)
+        if cOut == 0:
+            continue
+        elif cOut == 1:
+            cFound = cFind()
+        elif cOut == 2:
+            for c in cList:
+                print (f"{c.cFName}{c.cLName}")
+        elif cOut == 3:
+            cFound = cFind()
+            if cFound != 0:
+                cEdit(cFound)
+            else:
+                print("Client Not Found")
+        elif cOut == 4:
+            cAdd()
+    else:
+        continue
+
+# The Client and Vehicle classes are defined below.

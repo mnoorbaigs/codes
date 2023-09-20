@@ -1,0 +1,71 @@
+# Define the Account class
+class Account:
+    count = 100000  # Initialize the account number counter
+
+    def __init__(self, newType):
+        Account.count += 1000  # Increment the account number counter
+        self.AccNum = Account.count  # Assign a unique account number
+        self.AccType = newType  # Set the account type
+        self.AccBal = 0.00  # Initialize the account balance
+
+    def getNum(self):
+        return self.AccNum  # Get the account number
+
+    def getType(self):
+        return self.AccType  # Get the account type
+
+    def getBal(self):
+        return self.AccBal  # Get the account balance
+
+# Define the Customer class
+class Customer:
+    def __init__(self, account, first_name, last_name):
+        self.first_name = first_name  # Set the first name of the customer
+        self.last_name = last_name  # Set the last name of the customer
+        self.account = account  # Set the associated account for the customer
+
+    def __str__(self):
+        # Return a string representation of the customer
+        return f"{self.first_name} {self.last_name}, Account Type: {self.account.getType()}, Account Number: {self.account.getNum()}, Balance: {self.account.getBal()}"
+
+# Define the menuLoad function
+def menuLoad(menu):
+    count = 1
+
+    # Display the menu options
+    for z in menu:
+        print(f"{count}. {z}")
+        count += 1
+
+    print("0. EXIT")
+
+    # Get user input for menu selection
+    choice = input("Enter Number: ")
+
+    if choice.isnumeric():
+        choice = int(choice)
+
+        if choice in range(0, count):
+            answer = choice
+        else:
+            print("Error: Number out of RANGE.")
+            answer = 99
+    else:
+        print("Error: Input NOT a number.")
+        answer = 99
+
+    return answer
+
+# Create a list to store customer objects
+custList = []
+
+# Create customer objects and add them to the list
+dat01 = Customer(Account("Savings"), "Kylie", "Mackay")
+dat02 = Customer(Account("Cheque"), "Donna", "Underwood")
+dat03 = Customer(Account("Business"), "Anthony", "Hudson")
+
+custList.extend([dat01, dat02, dat03])
+
+# Display the customer information
+for x in custList:
+    print(x)

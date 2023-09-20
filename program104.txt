@@ -1,0 +1,96 @@
+# Define the Contact class for storing contact information
+class Contact:
+    def __init__(self, newFName, newLName, newAddr, newCity, newDist, newPhone):
+        self.FName = newFName
+        self.LName = newLName
+        self.newAddr = newAddr
+        self.newCity = newCity
+        self.newDist = newDist
+        self.Phone = newPhone
+
+    def setFName(self, otherFName):
+        self.FName = otherFName
+
+    def setLName(self, otherLName):
+        self.LName = otherLName
+
+    def __str__(self):
+        return (f"\nFirst Name: {self.FName}\n"
+                f"Last Name:     {self.LName}\n"
+                f"Addr:          {self.newAddr}\n"
+                f"City:          {self.newCity}\n"
+                f"District:      {self.newDist}\n"
+                f"Phone:         {self.Phone}")
+
+
+# Function to add a new contact to the pBook
+def addNew():
+    newFName = input("Enter FIRST Name: ")
+    newLName = input("Enter LAST Name: ")
+    newAddr = input("Enter ADDRESS: ")
+    newCity = input("Enter CITY: ")
+    newDist = input("Enter DISTRICT: ")
+    newPhone = input("Enter PHONE: ")
+    
+    # Create a new Contact instance and append it to the pBook list
+    newDat = Contact(newFName, newLName, newAddr, newCity, newDist, newPhone)
+    pBook.append(newDat)
+    print("Contact Saved.")
+
+
+# Function to find a contact by first name and last name
+def findContact():
+    newFName = input("Enter FIRST Name: ")
+    newLName = input("Enter LAST Name: ")
+
+    found = "Contact not found"
+
+    # Search for the contact in the pBook list
+    for x in pBook:
+        if x.FName == newFName and x.LName == newLName:
+            found = x
+            break
+    return found
+
+
+# Function to edit a contact's first name or last name
+def editContact():
+    toEdit = findContact()
+
+    if toEdit != "Contact not found":
+        print("1. Edit First Name")
+        print("2. Edit Last Name")
+
+        user1 = int(input("Enter Number: "))
+        user2 = input("New value: ")
+
+        if user1 == 1:
+            toEdit.setFName(user2)
+        else:
+            toEdit.setLName(user2)
+
+    print(toEdit)
+
+
+# Create an empty list to store contact information
+pBook = []
+
+# Create Contact instances
+dat11 = Contact("Harry", "Abraham", "8a Feltham Street", "Timaru", "Canterbury", "(020) 403 6704")
+dat12 = Contact("Simon", "Brown", "75 Scott Street", "Blenheim", "Marlborough", "(027) 185 9643")
+dat13 = Contact("Paul", "Abraham", "22 Tennyson Street", "Napier", "Hawke's Bay", "(029) 061 5554")
+dat14 = Contact("Jonathan", "North", "41a Union Road", "Pukekohe", "Auckland", "(020) 632 1503")
+dat15 = Contact("Theresa", "Morgan", "33a Waiouru Crescent", "Lower Hutt", "Wellington", "(021) 393 7110")
+
+# Add contacts to pBook
+pBook.append(dat11)
+pBook.append(dat12)
+pBook.append(dat13)
+pBook.append(dat14)
+pBook.append(dat15)
+
+# Display the list of contacts
+for x in pBook:
+    print(x)
+
+# Call editContact() or other functions as needed.
